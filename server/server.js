@@ -307,7 +307,6 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 8000;
 const MONGO_URI = process.env.MONGO_URI;
-console.log("MONGO_URI:", process.env.MONGO_URI);  // Add temporarily
 
 mongoose
   .connect(MONGO_URI)

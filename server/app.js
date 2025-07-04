@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", authRoute);
-app.use("/api", updateRoute)
+app.use("/", authRoute);
+app.use("/", updateRoute)
 
 
