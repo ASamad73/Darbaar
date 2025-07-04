@@ -1,0 +1,197 @@
+/* game.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    position: relative;
+    font-family: 'Roboto Mono', monospace;
+    background: #ffd300; /* bright yellow */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #000;
+  }
+  
+  /* Crown‐pattern */
+  .background-crowns {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .crown {
+    position: absolute;
+    font-size: 3rem;
+    color: rgba(255, 215, 0, 0.4);
+    animation: float 8s ease-in-out infinite;
+  }
+  .crown1  { top: 5%;  left: 10%; animation-delay: 0s; }
+  .crown2  { top: 20%; left: 80%; animation-delay: 1s; }
+  .crown3  { top: 40%; left: 30%; animation-delay: 2s; }
+  .crown4  { top: 65%; left: 90%; animation-delay: 3s; }
+  .crown5  { top: 80%; left: 20%; animation-delay: 4s; }
+  .crown6  { top: 55%; left: 50%; animation-delay: 5s; }
+  .crown7  { top: 30%; left: 60%; animation-delay: 6s; }
+  .crown8  { top: 10%; left: 45%; animation-delay: 7s; }
+  .crown9  { top: 75%; left: 75%; animation-delay: 4s; }
+  .crown10 { top: 50%; left: 15%; animation-delay: 2s; }
+  
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50%      { transform: translate(15px, -15px) rotate(15deg); }
+  }
+  
+  /* Main wrapper */
+  .game-container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+  .title {
+    font-size: 2rem;
+    letter-spacing: 4px;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    color: #ffffff;
+  }
+  
+  /* Two‐column layout */
+  .game-wrapper {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  /* Chat side */
+  .chat-container {
+    background: #ffffff;
+    border: 3px solid #ff9c00;
+    border-radius: 12px;
+    width: 300px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    box-shadow: 0 0 20px rgba(255,255,255,0.7);
+  }
+  .messages {
+    list-style: none;
+    overflow-y: auto;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+  }
+  .message {
+    margin-bottom: 0.5rem;
+    font-size: 0.7rem;
+    color: #ff9c00;
+  }
+  .sender {
+    font-weight: bold;
+    margin-right: 0.3rem;
+  }
+  .chat-input {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .chat-input input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 2px solid #ff9c00;
+    border-radius: 6px;
+    font-size: 0.7rem;
+  }
+  .chat-input .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+  }
+  
+  /* Players side */
+  .player-container {
+    background: #ff9c00;
+    border: 3px solid #ffffff;
+    border-radius: 12px;
+    width: 400px;
+    padding: 1rem;
+    box-shadow: 0 0 20px rgba(255,255,255,0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .player-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .player-tile {
+    background: #ffffff;
+    border: 2px solid #ff9c00;
+    border-radius: 8px;
+    padding: 0.8rem;
+    width: 120px;
+    text-align: center;
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .player-name {
+    font-weight: bold;
+    color: #ff7000;
+  }
+  .player-role {
+    font-family: 'Roboto Mono', monospace;
+    color: #ffd300;
+  }
+  .result {
+    font-size: 0.8rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+  .endgame {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.8rem;
+  }
+  
+  /* Shared button styles */
+  .btn {
+    display: inline-block;
+    text-transform: uppercase;
+    border-radius: 8px;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary {
+    background: #ffffff;
+    color: #ff9c00;
+    box-shadow: 0 0 12px #ffffff;
+  }
+  .btn-secondary {
+    background: #ffd300;
+    color: #ff9c00;
+    box-shadow: 0 0 12px #ffd300;
+  }
+  .btn:hover {
+    transform: scale(1.1) rotate(-1deg);
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  }
+  
+  /* Fade-in */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  
