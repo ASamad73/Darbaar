@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Friends - Darbaar</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/friends.css" />
+</head>
+<body>
+  <!-- Crown Pattern Background -->
+  <div class="background-crowns">
+    <span class="crown crown1">👑</span>
+    <span class="crown crown2">👑</span>
+    <span class="crown crown3">👑</span>
+    <span class="crown crown4">👑</span>
+    <span class="crown crown5">👑</span>
+    <span class="crown crown6">👑</span>
+    <span class="crown crown7">👑</span>
+    <span class="crown crown8">👑</span>
+    <span class="crown crown9">👑</span>
+    <span class="crown crown10">👑</span>
+  </div>
+
+  <div class="friends-container">
+    <h1 class="title">MY FRIENDS</h1>
+
+    <form class="add-friend-form" action="friends.html" method="GET">
+      <input type="text" name="username" placeholder="Friend’s Username" required>
+      <button type="submit" class="btn btn-primary">ADD</button>
+    </form>
+
+    <ul class="friend-list">
+      <!-- Example entries; replace with dynamic content -->
+      <li class="friend-item">
+        <span class="friend-name">Alice</span>
+        <span class="friend-stats">Games: 3</span>
+      </li>
+      <li class="friend-item">
+        <span class="friend-name">Bob</span>
+        <span class="friend-stats">Games: 5</span>
+      </li>
+      <li class="friend-item">
+        <span class="friend-name">Charlie</span>
+        <span class="friend-stats">Games: 2</span>
+      </li>
+    </ul>
+
+    <button class="btn btn-secondary go-back" onclick="location.href='dashboard.html'">
+      GO BACK
+    </button>
+  </div>
+</body>
+</html>
