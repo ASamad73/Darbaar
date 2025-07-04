@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "https://darbaar.netlify.app",
     methods: ["GET", "POST"],
     credentials: false,
   },
