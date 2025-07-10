@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../Design/css/game.css';
-import { createSocket } from '../../socket.js';
+import socket from '../../socket.js'
 
 export default function GameAnyone() {
     const navigate = useNavigate();
@@ -19,16 +19,14 @@ export default function GameAnyone() {
     const [timeout, setTimeout]=useState(false);
     const hasJoinedRef = useRef(false); 
     const gameRoleRef = useRef(null);
-    const socket = useRef(null);
 
     useEffect(() => {
-        socket.current = createSocket();
-
         const fetchData = async () => {
             const curr_username= localStorage.getItem('username');
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({username: curr_username}),
             });
@@ -48,14 +46,14 @@ export default function GameAnyone() {
             setUserData(me);
 
             if (!hasJoinedRef.current) {
-                socket.current.emit('joining', me);
+                socket.emit('joining', me);
                 hasJoinedRef.current = true; 
             }
         };
         
         fetchData();
         
-        socket.current.on('start_game', (role, other_usernames)=>{
+        socket.on('start_game', (role, other_usernames)=>{
             setStart(true);
             console.log('role set: ', role);
             setGameRole(role);
@@ -63,26 +61,26 @@ export default function GameAnyone() {
             setPlayersUsernames(other_usernames);
         });
 
-        socket.current.on('votes', (votes)=>{
+        socket.on('votes', (votes)=>{
             setAllVotes(votes);
         })
 
-        socket.current.on('guessed', ()=>{
+        socket.on('guessed', ()=>{
             console.log('guessed received');
             setGuess(true)
         })
 
-        socket.current.on('reveal_roles', (records)=>{
+        socket.on('reveal_roles', (records)=>{
             setRoleRecords(records);
         })
 
-        socket.current.on('msg_info', (info)=>{
+        socket.on('msg_info', (info)=>{
             console.log('message recived by', gameRoleRef.current);
             console.log('message recieved', info);
             setAllMessages(prev=>[...prev, info]);
         })
         
-        socket.current.on('end', (records)=>{
+        socket.on('end', (records)=>{
             console.log('end received by:', gameRoleRef.current); // now logs correct role
             setRoleRecords(records);
             if (gameRoleRef.current === 'Chor') {
@@ -92,29 +90,29 @@ export default function GameAnyone() {
             }
         })
 
-        socket.current.on('won', ()=>{
+        socket.on('won', ()=>{
             setResult('You Won');
         })
 
-        socket.current.on('lost', ()=>{
+        socket.on('lost', ()=>{
             setResult('You Lost');
         })
 
-        socket.current.on('timeout', (msg)=>{
+        socket.on('timeout', (msg)=>{
             setResult(msg);
             setTimeout(true);
         })
 
         return()=>{
-            socket.current.off('start_game');
-            socket.current.off('votes');
-            socket.current.off('guessed');
-            socket.current.off('reveal_roles');
-            socket.current.off('msg_info');
-            socket.current.off('end');
-            socket.current.off('won');
-            socket.current.off('lost');
-            socket.current.off('timeout');
+            socket.off('start_game');
+            socket.off('votes');
+            socket.off('guessed');
+            socket.off('reveal_roles');
+            socket.off('msg_info');
+            socket.off('end');
+            socket.off('won');
+            socket.off('lost');
+            socket.off('timeout');
         }
 
     }, []);
@@ -124,10 +122,10 @@ export default function GameAnyone() {
             console.log('voted for: ', vote);
             if(guess){
                 console.log('final voting');
-                socket.current.emit('final_vote', vote);
+                socket.emit('final_vote', vote);
             }
             else{
-                socket.current.emit('vote', userData.username, vote);
+                socket.emit('vote', userData.username, vote);
             }
         }
     }, [vote])
@@ -141,14 +139,14 @@ export default function GameAnyone() {
 
     const handleGuess=()=>{
         if(start && result==='In Game'){
-            socket.current.emit('guess')
+            socket.emit('guess')
             setGuess(true);
         }
     }
 
     const handleEndGame=()=>{
         if(start){
-            socket.current.emit('end');
+            socket.emit('end');
         }
     }
 
@@ -156,7 +154,7 @@ export default function GameAnyone() {
         if(start){
             console.log('message: ', message);
             setMessage('');
-            socket.current.emit('message', [[userData.username, gameRole], message])
+            socket.emit('message', [[userData.username, gameRole], message])
         }
     }
 
@@ -164,6 +162,7 @@ export default function GameAnyone() {
         if(!timeout){
             const response = await fetch(`${import.meta.env.VITE_API_URL}/game`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({username: userData.username}),
             });
