@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../Design/css/dashboard.css'
 import { createSocket } from '../../socket.js';
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const [userData, setUserData]=useState({})
+    const [userData, setUserData]=useState({});
+    const socket = useRef(null);
 
     useEffect(()=>{
-        const socket=createSocket();
-        socket.connect();
+        socket.current=createSocket();
+        socket.current.connect();
 
         const fetchData = async () => {
             const curr_username= localStorage.getItem('username');
@@ -36,6 +37,10 @@ export default function Dashboard() {
         }
 
         fetchData();
+
+        return () => {
+            socket.current.disconnect();
+        };
     }, []);
     
     // useEffect(() => {
