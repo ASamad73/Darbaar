@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../Design/css/dashboard.css'
-import socket from '../../socket.js'
+import { createSocket } from '../../socket.js';
 
 export default function Dashboard() {
     const navigate = useNavigate();
     const [userData, setUserData]=useState({})
 
     useEffect(()=>{
+        socket=createSocket();
         socket.connect();
 
         const fetchData = async () => {
