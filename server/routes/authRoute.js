@@ -1,4 +1,5 @@
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 const router = express.Router();
@@ -33,27 +34,38 @@ router.post('/signup', async (req, res)=>{
     }
 });
 
-router.post('/login', async (req, res)=>{
-    try{
-        const {username, password} = req.body;
-    
-        if (!username || !password){
-            return res.status(400).json({message: 'Username and password are required field'});
-        }
-    
+router.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        if (!username || !password)
+        return res.status(400).json({ message: 'Username and password are required' });
+
         const user = await User.findOne({ username });
-        if (!user) {
-          return res.status(400).json({ message: 'Username does nto exist' });
-        }
-        
-        const passwordCheck = password===user.password;
-        if (!passwordCheck) {
-          return res.status(400).json({ message: 'Invalid password' });
-        }
-        
-        res.status(200).json({ message: 'Login successful',  userId: user._id });
-    } catch(error){
-        res.status(500).json({message: 'Login error', error: error.message});
+        if (!user)
+        return res.status(400).json({ message: 'Username does not exist' });
+
+        const passwordCheck = password === user.password;
+        if (!passwordCheck)
+        return res.status(400).json({ message: 'Invalid password' });
+
+        const token = jwt.sign(
+        { userId: user._id, username: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: '3d' }
+        );
+
+        res.cookie('token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+        maxAge: 3 * 24 * 60 * 60 * 1000, 
+        });
+
+        res.status(200).json({ message: 'Login successful' });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Login error', error: error.message });
     }
 });
 

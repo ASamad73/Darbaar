@@ -15,6 +15,7 @@ export default function Friends() {
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({username: curr_username}),
             });
@@ -41,6 +42,7 @@ export default function Friends() {
     
                 const res = await fetch(`${import.meta.env.VITE_API_URL}/friends`, {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {'Content-type': 'application/json'},
                     body: JSON.stringify({username: curr_username}),
                 });
@@ -60,6 +62,7 @@ export default function Friends() {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({username: friendUsername}),
             });
@@ -69,6 +72,7 @@ export default function Friends() {
 
             const resp = await fetch(`${import.meta.env.VITE_API_URL}/add_friend`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({friend: data, username: userData.username}),
             });

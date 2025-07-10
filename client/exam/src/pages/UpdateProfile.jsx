@@ -15,6 +15,7 @@ export default function UpdateProfile() {
 
         const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
             method: 'POST',
+            credentials: 'include',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({username: curr_username}),
         });
@@ -52,6 +53,7 @@ export default function UpdateProfile() {
 
       const res = await fetch(`${import.meta.env.VITE_API_URL}/user/update-profile`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

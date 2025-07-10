@@ -1,22 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../Design/css/dashboard.css'
-import { createSocket } from '../../socket.js';
+import socket from '../../socket.js'
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const [userData, setUserData]=useState({});
-    const socket = useRef(null);
+    const [userData, setUserData]=useState({})
 
     useEffect(()=>{
-        socket.current=createSocket();
-        socket.current.connect();
+        socket.connect();
 
         const fetchData = async () => {
             const curr_username= localStorage.getItem('username');
 
             const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify({username: curr_username}),
             });
@@ -37,36 +36,7 @@ export default function Dashboard() {
         }
 
         fetchData();
-
-        return () => {
-            socket.current.disconnect();
-        };
     }, []);
-    
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //     const token = localStorage.getItem('token'); 
-    //     const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
-    //         method: 'GET',
-    //         headers: {
-    //         'Content-Type': 'application/json',
-    //         Authorization: `Bearer ${token}`,
-    //         },
-    //     });
-
-    //     const data = await res.json();
-
-    //     if (!res.ok) {
-    //         console.log('Error fetching user data for game');
-    //         return;
-    //     }
-
-    //     setUserData({'userId':data._id, 'username': data.username, 'profilePic': data.profile_picture, 'coins': data.coins});
-    //     console.log('User data:', data); 
-    //     };
-
-    //     fetchData(); 
-    // }, []); 
 
   return (
     <>
