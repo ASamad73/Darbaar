@@ -8,7 +8,7 @@ export default function Dashboard() {
     const [userData, setUserData]=useState({})
 
     useEffect(()=>{
-        socket=createSocket();
+        const socket=createSocket();
         socket.connect();
 
         const fetchData = async () => {
