@@ -22,36 +22,38 @@ export default function GameFriends() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const curr_username= localStorage.getItem('username');
+            try {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
 
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({username: curr_username}),
-            });
-            const data = await res.json();
+                const data = await res.json();
 
-            if (!res.ok) {
-                console.error('Failed to fetch user');
-                return;
-            }
+                if (!res.ok) {
+                    console.error('Failed to fetch user');
+                    return;
+                }
 
-            const me = {
-                userId: data._id,
-                username: data.username,
-                games: data.games,
-            };
+                const me = {
+                    userId: data._id,
+                    username: data.username,
+                    games: data.games,
+                };
 
-            setUserData(me);
+                setUserData(me);
 
-            if (!hasJoinedRef.current) {
-                socket.emit('joining_friend', me);
-                hasJoinedRef.current = true; 
+                if (!hasJoinedRef.current) {
+                    socket.emit('joining_friend', me); 
+                    hasJoinedRef.current = true;
+                }
+            } catch (err) {
+                console.error('Error fetching user:', err);
             }
         };
-        
+
         fetchData();
+
         
         socket.on('start_game', (role, other_usernames)=>{
             setStart(true);

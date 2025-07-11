@@ -11,14 +11,11 @@ export default function UpdateProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const curr_username= localStorage.getItem('username');
-
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({username: curr_username}),
+          const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
+          method: 'GET',
+          credentials: 'include',
         });
+
         const data = await res.json();
 
 
