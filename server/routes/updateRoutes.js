@@ -1,28 +1,22 @@
 import express from 'express';
 import User from '../models/User.js';
 import Friend from '../models/Friends.js'
+import authenticate from '../controllers/authenticate.js'; 
 
 const router = express.Router();
 
-router.post('/user', async (req, res) => {
+router.get('/me', authenticate, async (req, res) => {
     try {
-        const {username} = req.body
+        const user = await User.findById(req.user.userId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
-        const users=await User.find();
-        
-        for (let u of users){
-            if(u.username===username){
-                if (!u) {
-                    return res.status(404).json({ message: 'User not found' });
-                }
-            
-                res.status(200).json(u);
-
-                break;
-            }
-        }
-    } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
+        res.status(200).json({
+        _id: user._id,
+        username: user.username,
+        games: user.games,
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching user', error: error.message });
     }
 });
 

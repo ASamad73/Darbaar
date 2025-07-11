@@ -11,29 +11,31 @@ export default function Dashboard() {
         socket.connect();
 
         const fetchData = async () => {
-            const curr_username= localStorage.getItem('username');
+            try {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
+                    method: 'GET',
+                    credentials: 'include', 
+                });
 
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({username: curr_username}),
-            });
-            const data = await res.json();
+                const data = await res.json();
 
-            if (!res.ok) {
-                console.error('Failed to fetch user');
-                return;
+                if (!res.ok) {
+                    console.error('Failed to fetch user');
+                    return;
+                }
+
+                const me = {
+                    userId: data._id,
+                    username: data.username,
+                    games: data.games,
+                };
+
+                setUserData(me);
+                
+            } catch (err) {
+                console.error('Error fetching user:', err);
             }
-
-            const me = {
-                userId: data._id,
-                username: data.username,
-                games: data.games,
-            };
-
-            setUserData(me);
-        }
+        };
 
         fetchData();
     }, []);

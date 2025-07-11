@@ -4,6 +4,8 @@ import { app } from "./app.js";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import Friend from './models/Friends.js'
+import jwt from 'jsonwebtoken';
+import cookie from 'cookie';
 
 config({ path: "./config.env" });
 
@@ -15,6 +17,23 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
     credentials: false,
   },
+});
+
+io.use((socket, next) => {
+    const cookies = socket.handshake.headers.cookie;
+    if (!cookies) return next(new Error("No cookies"));
+
+    const parsed = cookie.parse(cookies);
+    const token = parsed.token;
+    if (!token) return next(new Error("No token"));
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        socket.user = decoded; 
+        next();
+    } catch (err) {
+        return next(new Error("Invalid token"));
+    }
 });
 
 
