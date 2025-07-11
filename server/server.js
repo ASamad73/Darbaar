@@ -50,7 +50,6 @@ function findPlayerGame(socketId) {
   return null;
 }
 
-
 io.on("connection", (socket) => {
   console.log('initially gamerecord: ', gamesRecord);
   console.log("USER CONNECTED:", socket.id);

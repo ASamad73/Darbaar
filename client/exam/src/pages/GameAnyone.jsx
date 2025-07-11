@@ -29,6 +29,7 @@ export default function GameAnyone() {
                 });
 
                 const data = await res.json();
+                console.log('username: ', data.username);
 
                 if (!res.ok) {
                     console.error('Failed to fetch user');
@@ -42,6 +43,7 @@ export default function GameAnyone() {
                 };
 
                 setUserData(me);
+                console.log('username again: ', userData.username);
 
                 if (!hasJoinedRef.current) {
                     socket.emit('joining', me); 
