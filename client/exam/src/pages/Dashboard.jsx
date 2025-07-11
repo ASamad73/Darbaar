@@ -18,6 +18,7 @@ export default function Dashboard() {
                 });
 
                 const data = await res.json();
+                console.log('username: ', data.username);
 
                 if (!res.ok) {
                     console.error('Failed to fetch user');
