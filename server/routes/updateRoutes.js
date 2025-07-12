@@ -57,7 +57,6 @@ router.post('/user/update-profile', async (req, res) => {
 
 router.post('/friends', async (req, res) => {
     try {
-        
         const { username } = req.body;
         const user = await User.findOne({ username });
         

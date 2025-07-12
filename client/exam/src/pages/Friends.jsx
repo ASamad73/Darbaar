@@ -40,13 +40,19 @@ export default function Friends() {
 
         const fetchFriendData = async () => {
             try {
-                const curr_username= localStorage.getItem('username');
+                const resp = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                const user = await resp.json();
+
+                if (!resp.ok) throw new Error(user.message || 'User not found');
     
                 const res = await fetch(`${import.meta.env.VITE_API_URL}/friends`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {'Content-type': 'application/json'},
-                    body: JSON.stringify({username: curr_username}),
+                    body: JSON.stringify({username: user.username}),
                 });
                 const data = await res.json();
     
@@ -66,7 +72,6 @@ export default function Friends() {
                 method: 'GET',
                 credentials: 'include', 
             });
-
             const data = await res.json();
 
             if (!res.ok) throw new Error(data.message || 'Failed to fetch');
@@ -78,7 +83,6 @@ export default function Friends() {
                 body: JSON.stringify({friend: data, username: userData.username}),
             });
 
-            // const friendData=await resp.json();
             if (!resp.ok) throw new Error(data.message || 'Failed to fetch');
 
         } catch (err) {
@@ -114,7 +118,7 @@ export default function Friends() {
                 <input 
                     type="text" 
                     name="username" 
-                    placeholder="Friend’s Username" 
+                    placeholder="Friend's Username" 
                     required
                     value={friendUsername}
                     onChange={(e)=>setFriendUsername(e.target.value)}
