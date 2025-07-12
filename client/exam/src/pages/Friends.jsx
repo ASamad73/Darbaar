@@ -104,7 +104,13 @@ export default function Friends() {
         <div className="friends-container">
             <h1 className="title">MY FRIENDS</h1>
 
-            <form className="add-friend-form" >
+            <form
+                className="add-friend-form"
+                onSubmit={(e) => {
+                    e.preventDefault(); 
+                    addFriend();
+                }}
+                >
                 <input 
                     type="text" 
                     name="username" 
@@ -113,8 +119,9 @@ export default function Friends() {
                     value={friendUsername}
                     onChange={(e)=>setFriendUsername(e.target.value)}
                 />
-                <button type="submit" className="btn btn-primary" onClick={()=>addFriend()}>ADD</button>
+                <button type="submit" className="btn btn-primary">ADD</button>
             </form>
+
 
             <ul className="friend-list">
             {allFriends.map((entry, i)=>(    
