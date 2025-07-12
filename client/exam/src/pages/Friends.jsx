@@ -68,27 +68,43 @@ export default function Friends() {
 
     const addFriend = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
+            // Get current user
+            const meRes = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
                 method: 'GET',
-                credentials: 'include', 
+                credentials: 'include',
             });
-            const data = await res.json();
+            const me = await meRes.json();
+            if (!meRes.ok) throw new Error(me.message || 'Failed to fetch current user');
 
-            if (!res.ok) throw new Error(data.message || 'Failed to fetch');
+            if (friendUsername === me.username) {
+                alert("You cannot add yourself as a friend.");
+                return;
+            }
+
+            const friendRes = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: friendUsername }),
+            });
+            const friend = await friendRes.json();
+            if (!friendRes.ok) throw new Error(friend.message || 'Friend not found');
 
             const resp = await fetch(`${import.meta.env.VITE_API_URL}/add_friend`, {
                 method: 'POST',
                 credentials: 'include',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify({friend: data, username: userData.username}),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ friend, username: me.username }),
             });
+            const result = await resp.json();
+            if (!resp.ok) throw new Error(result.message || 'Failed to add friend');
 
-            if (!resp.ok) throw new Error(data.message || 'Failed to fetch');
-
+            setFriendUsername('');
         } catch (err) {
-            console.error(err); 
+            console.error(err);
         }
     };
+
 
   return (
     <>
