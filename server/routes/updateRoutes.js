@@ -20,6 +20,15 @@ router.get('/me', authenticate, async (req, res) => {
     }
 });
 
+router.post('/user', async (req, res) => {
+    const { username } = req.body;
+
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.status(200).json(user);
+});
+
 
 router.post('/user/update-profile', async (req, res) => {
     try {
@@ -64,14 +73,17 @@ router.post('/friends', async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const friends=await Friend.find({ user: user._id }).populate('friend', 'username games');
+        const friends = await Friend.find({ user: user._id }).populate('friend', 'username games');
 
-        res.json(friends);
+        const filtered = friends.filter(f => f.friend.username !== user.username);
+
+        res.json(filtered);
         
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 });
+
 
 router.post('/add_friend', async (req, res) => {
     try {        
