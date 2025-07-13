@@ -200,23 +200,29 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on('guess', ()=>{
+  socket.on('guess', () => {
     if (!gamesRecord[waitingId] || !gamesRecord[waitingId].players) {
       console.warn('Guess received but no active game or players.');
       return;
     }
 
-    let votes={};
+    let votes = {};
     gamesRecord[waitingId].players.forEach(player => {
-      votes[player.username]=player.vote;
+      votes[player.username] = player.vote;
     });
 
-    const Badshah=gamesRecord[waitingId].players[0]
-    io.to(Badshah.socketId).emit('votes', votes);
+    const badshahPlayer = gamesRecord[waitingId].players.find(player => player.role === 'Badshah');
+    if (badshahPlayer) {
+      io.to(badshahPlayer.socketId).emit('votes', votes);
+    } else {
+      console.error('No Badshah found in players!');
+    }
 
-    io.to(gamesRecord[waitingId].players[1].socketId).emit('guessed');
-    io.to(gamesRecord[waitingId].players[2].socketId).emit('guessed');
-    io.to(gamesRecord[waitingId].players[3].socketId).emit('guessed');
+    gamesRecord[waitingId].players.forEach(player => {
+      if (player.role !== 'Badshah') {
+        io.to(player.socketId).emit('guessed');
+      }
+    });
   });
 
   socket.on('final_vote', (voteUsername) => {
