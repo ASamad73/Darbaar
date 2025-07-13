@@ -7,9 +7,11 @@ config({ path: "./config.env" });
 
 const router = express.Router();
 
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
+
 router.post('/signup', async (req, res) => {
   try {
-    console.log('inside signup');
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -28,17 +30,26 @@ router.post('/signup', async (req, res) => {
     const user = new User({ username, password });
     await user.save();
 
-    req.session.user = {
-      id: user._id,
-      username: user.username
-    };
+    const token = jwt.sign(
+      { userId: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: '3d' } 
+    );
 
-    res.status(201).json({ message: `SignUp successful ${user._id}`, userId: user._id });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      maxAge: 3 * 24 * 60 * 60 * 1000, 
+    });
+
+    return res.status(201).json({ message: 'Signup successful' });
+
   } catch (error) {
+    console.error('Signup error:', error);
     res.status(500).json({ message: 'SignUp error', error: error.message });
   }
 });
-
 
 router.post('/login', async (req, res) => {
     try {
