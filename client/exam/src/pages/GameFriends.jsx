@@ -63,6 +63,7 @@ export default function GameFriends() {
         });
 
         socket.on('votes', (votes)=>{
+            console.log('votes recieved');
             setAllVotes(votes);
         })
 
