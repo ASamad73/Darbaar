@@ -30,7 +30,6 @@ export default function SignUp () {
             }
 
             localStorage.setItem('username', form.username)
-            console.log('form.username', localStorage.getItem('username'))
     
             navigate('/dashboard')
             console.log('sign up successful');
