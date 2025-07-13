@@ -68,7 +68,7 @@ export default function GameFriends() {
 
         socket.on('guessed', ()=>{
             console.log('guessed received');
-            setGuess(true)
+            setGuess(true);
         })
 
         socket.on('reveal_roles', (records)=>{

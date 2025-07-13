@@ -7,35 +7,38 @@ config({ path: "./config.env" });
 
 const router = express.Router();
 
-router.post('/signup', async (req, res)=>{
-    try{
-        console.log('inside signup')
-        const {username, password} = req.body;
-    
-        if (!username || !password){
-            return res.status(400).json({message: 'Username and password are required fields'});
-        }
-    
-        const existingUser = await User.findOne({ username });
-        if (existingUser) {
-          return res.status(400).json({ message: 'Username already exists' });
-        }
-        
-        if(password.length<6){
-            return res.status(400).json({ message: 'Password must be at least 6 characters long' });
-        }
-    
-        const user = new User({
-            username,
-            password
-          });
-        await user.save();
-    
-        res.status(201).json({ message: `SignUp successful ${user._id}`, userId: user._id });
-    } catch(error){
-        res.status(500).json({message:'SignUp error', error: error.message});
+router.post('/signup', async (req, res) => {
+  try {
+    console.log('inside signup');
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required fields' });
     }
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Username already exists' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
+    const user = new User({ username, password });
+    await user.save();
+
+    req.session.user = {
+      id: user._id,
+      username: user.username
+    };
+
+    res.status(201).json({ message: `SignUp successful ${user._id}`, userId: user._id });
+  } catch (error) {
+    res.status(500).json({ message: 'SignUp error', error: error.message });
+  }
 });
+
 
 router.post('/login', async (req, res) => {
     try {
