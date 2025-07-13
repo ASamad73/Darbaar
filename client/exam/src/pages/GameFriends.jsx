@@ -212,7 +212,13 @@ export default function GameFriends() {
             <div className="player-container">
                 <div className="player-grid">
                     <div className="player-tile">
-                        <span className="player-name">{result==='In Game' ? playersUsernames ? playersUsernames[0] : 'Joining..' : 'Not Found'}</span>
+                        <span className="player-name">
+                            {playersUsernames
+                            ? playersUsernames[0]
+                            : result === 'Not enough players joined your friends room in time.'
+                                ? 'Not Found'
+                                : 'Joining..'}
+                        </span>
                         <span className="player-role">
                             <span className="player-role">
                             {
@@ -236,7 +242,13 @@ export default function GameFriends() {
                         {gameRole && gameRole==='BadShah' && guess && <button className="btn btn-primary" onClick={()=>handleVote(playersUsernames[0])}>VOTE</button>}
                     </div>
                     <div className="player-tile">
-                        <span className="player-name">{result==='In Game' ? playersUsernames ? playersUsernames[1] : 'Joining..' : 'Not Found'}</span>
+                        <span className="player-name">
+                            {playersUsernames
+                            ? playersUsernames[1]
+                            : result === 'Not enough players joined your friends room in time.'
+                                ? 'Not Found'
+                                : 'Joining..'}
+                        </span>
                         <span className="player-role">{roleRecords ? roleRecords[playersUsernames[1]] : 'Role Hidden'}</span>
                         {gameRole && gameRole === 'BadShah' && allvotes && (
                             <span className="player-role">
@@ -251,7 +263,13 @@ export default function GameFriends() {
                         )}
                     </div>
                     <div className="player-tile">
-                        <span className="player-name">{result==='In Game' ? playersUsernames ? playersUsernames[2] : 'Joining..' : 'Not Found'}</span>
+                        <span className="player-name">
+                            {playersUsernames
+                            ? playersUsernames[2]
+                            : result === 'Not enough players joined your friends room in time.'
+                                ? 'Not Found'
+                                : 'Joining..'}
+                        </span>
                         <span className="player-role">{roleRecords ? roleRecords[playersUsernames[2]] : 'Role Hidden'}</span>
                         {gameRole && gameRole === 'BadShah' && allvotes && (
                             <span className="player-role">
