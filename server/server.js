@@ -277,16 +277,14 @@ io.on("connection", (socket) => {
     const game = gamesRecord[gameId];
     if (!game) return;
 
-    const badshah=gamesRecord[waitingId].players.find(p => p.role === 'Badshah');
-    const wazir=gamesRecord[waitingId].players.find(p => p.role === 'Wazir');
-    const sipahi=gamesRecord[waitingId].players.find(p => p.role === 'Sipahi');
-    const chor=gamesRecord[waitingId].players.find(p => p.role === 'Chor');
+    const badshah = game.players.find(p => p.role === 'Badshah');
+    const wazir = game.players.find(p => p.role === 'Wazir');
+    const sipahi = game.players.find(p => p.role === 'Sipahi');
+    const chor = game.players.find(p => p.role === 'Chor');
 
-    let reveal_records={};
-    gamesRecord[waitingId].players.forEach(player=>{
-      // if(player.role!='Badshah'){
-      // }
-      reveal_records[player.username]=player.role;
+    let reveal_records = {};
+    game.players.forEach(player => {
+      reveal_records[player.username] = player.role;
     });
 
     io.to(wazir.socketId).emit('end', reveal_records);
