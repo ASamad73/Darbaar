@@ -6,8 +6,6 @@ import { config } from "dotenv";
 config({ path: "./config.env" });
 
 const router = express.Router();
-
-const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/signup', async (req, res) => {
@@ -32,7 +30,7 @@ router.post('/signup', async (req, res) => {
 
     const token = jwt.sign(
       { userId: user._id, username: user.username },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: '3d' } 
     );
 
@@ -50,6 +48,7 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ message: 'SignUp error', error: error.message });
   }
 });
+
 
 router.post('/login', async (req, res) => {
     try {
