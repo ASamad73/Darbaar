@@ -53,7 +53,6 @@ export default function GameFriends() {
         };
 
         fetchData();
-
         
         socket.on('start_game', (role, other_usernames)=>{
             setStart(true);
@@ -149,6 +148,7 @@ export default function GameFriends() {
 
     const handleEndGame=()=>{
         if(start){
+            console.log('end emitted');
             socket.emit('end');
         }
     }

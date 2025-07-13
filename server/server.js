@@ -273,6 +273,7 @@ io.on("connection", (socket) => {
 
   socket.on('end', ()=>{
     const gameId = findPlayerGame(socket.id);
+    console.log('gameId', gameId);
     const game = gamesRecord[gameId];
     if (!game) return;
 
@@ -312,15 +313,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on('disconnect', () => {
-  const gameId = findPlayerGame(socket.id);
-  if (gameId) {
-    delete gamesRecord[gameId];
-    waitingId = null;
-    console.log(`Game ${gameId} removed due to player disconnect`);
-  }
-});
-
-
+    const gameId = findPlayerGame(socket.id);
+    if (gameId) {
+      delete gamesRecord[gameId];
+      waitingId = null;
+      console.log(`Game ${gameId} removed due to player disconnect`);
+    }
+  });
 });
 
 const PORT = process.env.PORT || 8000;
