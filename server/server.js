@@ -201,24 +201,27 @@ io.on("connection", (socket) => {
   });
 
   socket.on('guess', () => {
-    if (!gamesRecord[waitingId] || !gamesRecord[waitingId].players) {
+    const gameId = findPlayerGame(socket.id);
+    const game = gamesRecord[gameId];
+
+    if (!game || !game.players) {
       console.warn('Guess received but no active game or players.');
       return;
     }
 
     let votes = {};
-    gamesRecord[waitingId].players.forEach(player => {
+    game.players.forEach(player => {
       votes[player.username] = player.vote;
     });
 
-    const badshahPlayer = gamesRecord[waitingId].players.find(player => player.role === 'Badshah');
+    const badshahPlayer = game.players.find(player => player.role === 'Badshah');
     if (badshahPlayer) {
       io.to(badshahPlayer.socketId).emit('votes', votes);
     } else {
       console.error('No Badshah found in players!');
     }
 
-    gamesRecord[waitingId].players.forEach(player => {
+    game.players.forEach(player => {
       if (player.role !== 'Badshah') {
         io.to(player.socketId).emit('guessed');
       }
