@@ -93,22 +93,50 @@ io.on("connection", (socket) => {
     console.log('length:', gamesRecord[waitingId]?.players.length)
   
     if (gamesRecord[waitingId]?.players.length === 4) {
-      console.log('4 players added');
       clearTimeout(gamesRecord[waitingId].timeout);
-      const [Badshah, Wazir, Sipahi, Chor] = gamesRecord[waitingId].players;
+
+      const players = gamesRecord[waitingId].players;
 
       const roles=['Badshah', 'Wazir', 'Sipahi', 'Chor'];
-      for(let i=0;i<4;i++){
-        gamesRecord[waitingId].players[i].role=roles[i];
+      for (let i = roles.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [roles[i], roles[j]] = [roles[j], roles[i]];
       }
 
-      console.log('players: ', gamesRecord[waitingId].players)
-      console.log('players added 4')
+      for (let i = 0; i < 4; i++) {
+        players[i].role = roles[i];
+      }
 
-      io.to(Badshah.socketId).emit('start_game', 'BadShah', [Wazir.username, Sipahi.username, Chor.username]);
-      io.to(Wazir.socketId).emit('start_game', 'Wazir', [Badshah.username, Sipahi.username, Chor.username]);
-      io.to(Sipahi.socketId).emit('start_game', 'Sipahi', [Badshah.username, Wazir.username, Chor.username]);
-      io.to(Chor.socketId).emit('start_game', 'Chor', [Badshah.username, Wazir.username, Sipahi.username]); 
+      console.log('players with roles:', players);
+
+      const playerMap = {};
+      players.forEach(p => {
+        playerMap[p.role] = p;
+      });
+
+      io.to(playerMap['Badshah'].socketId).emit('start_game', 'Badshah', [
+        playerMap['Wazir'].username,
+        playerMap['Sipahi'].username,
+        playerMap['Chor'].username
+      ]);
+
+      io.to(playerMap['Wazir'].socketId).emit('start_game', 'Wazir', [
+        playerMap['Badshah'].username,
+        playerMap['Sipahi'].username,
+        playerMap['Chor'].username
+      ]);
+
+      io.to(playerMap['Sipahi'].socketId).emit('start_game', 'Sipahi', [
+        playerMap['Badshah'].username,
+        playerMap['Wazir'].username,
+        playerMap['Chor'].username
+      ]);
+
+      io.to(playerMap['Chor'].socketId).emit('start_game', 'Chor', [
+        playerMap['Badshah'].username,
+        playerMap['Wazir'].username,
+        playerMap['Sipahi'].username
+      ]);
     }
   });
   
@@ -128,7 +156,6 @@ io.on("connection", (socket) => {
       if (room.players.length < 4) {
         let valid = true;
 
-        // Await mutual friend checks
         for (const existingPlayer of room.players) {
           const [isFriend1, isFriend2] = await Promise.all([
             Friend.findOne({ user: existingPlayer.userId, friend: player.userId }),
@@ -144,12 +171,11 @@ io.on("connection", (socket) => {
         if (valid) {
           joinedRoom = room;
           room.players.push(player);
-          break;  // ✅ stop checking after successful join
+          break;  
         }
       }
     }
 
-    // If no valid room found, create a new one
     if (!joinedRoom) {
       const newRoomId = currentId++;
       joinedRoom = {
@@ -167,23 +193,51 @@ io.on("connection", (socket) => {
 
     console.log('Friend room size:', joinedRoom.players.length);
 
-    // Start game if 4 players are present
     if (joinedRoom.players.length === 4) {
       clearTimeout(joinedRoom.timeout);
 
-      const [Badshah, Wazir, Sipahi, Chor] = joinedRoom.players;
+      const players = joinedRoom.players;
       const roles = ['Badshah', 'Wazir', 'Sipahi', 'Chor'];
-      for (let i = 0; i < 4; i++) {
-        joinedRoom.players[i].role = roles[i];
+
+      for (let i = roles.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [roles[i], roles[j]] = [roles[j], roles[i]];
       }
 
-      io.to(Badshah.socketId).emit('start_game', 'BadShah', [Wazir.username, Sipahi.username, Chor.username]);
-      io.to(Wazir.socketId).emit('start_game', 'Wazir', [Badshah.username, Sipahi.username, Chor.username]);
-      io.to(Sipahi.socketId).emit('start_game', 'Sipahi', [Badshah.username, Wazir.username, Chor.username]);
-      io.to(Chor.socketId).emit('start_game', 'Chor', [Badshah.username, Wazir.username, Sipahi.username]);
+      for (let i = 0; i < 4; i++) {
+        players[i].role = roles[i];
+      }
+
+      const playerMap = {};
+      players.forEach(p => {
+        playerMap[p.role] = p;
+      });
+
+      io.to(playerMap['Badshah'].socketId).emit('start_game', 'Badshah', [
+        playerMap['Wazir'].username,
+        playerMap['Sipahi'].username,
+        playerMap['Chor'].username
+      ]);
+
+      io.to(playerMap['Wazir'].socketId).emit('start_game', 'Wazir', [
+        playerMap['Badshah'].username,
+        playerMap['Sipahi'].username,
+        playerMap['Chor'].username
+      ]);
+
+      io.to(playerMap['Sipahi'].socketId).emit('start_game', 'Sipahi', [
+        playerMap['Badshah'].username,
+        playerMap['Wazir'].username,
+        playerMap['Chor'].username
+      ]);
+
+      io.to(playerMap['Chor'].socketId).emit('start_game', 'Chor', [
+        playerMap['Badshah'].username,
+        playerMap['Wazir'].username,
+        playerMap['Sipahi'].username
+      ]);
     }
   });
-
   
   socket.on('vote', (user, voted) => {
     if (!gamesRecord[waitingId] || !gamesRecord[waitingId].players) {
