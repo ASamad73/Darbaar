@@ -235,19 +235,18 @@ io.on("connection", (socket) => {
         return;
     }
 
-
-    let reveal_records={};
-    gamesRecord[waitingId]?.players.forEach(player=>{
-      if(player.role!='Badshah'){
-        reveal_records[player.username]=player.role;
-      }
+    let reveal_records = {};
+    game.players.forEach(player => {
+        if (player.role !== 'Badshah') {
+            reveal_records[player.username] = player.role;
+        }
     });
 
     const badshah = game.players.find(p => p.role === 'Badshah');
     const wazir = game.players.find(p => p.role === 'Wazir');
     const sipahi = game.players.find(p => p.role === 'Sipahi');
     const chor = game.players.find(p => p.role === 'Chor');
-
+    
     const votedPlayer = game.players.find(p => p.username === voteUsername);
 
     io.to(badshah.socketId).emit('reveal_roles', reveal_records);
@@ -258,19 +257,19 @@ io.on("connection", (socket) => {
     }
 
     if (votedPlayer.role === 'Wazir') {
-        console.log('CORRECTLY GUESSED');
-        io.to(badshah.socketId).emit('won');
-        io.to(wazir.socketId).emit('won');
-        io.to(sipahi.socketId).emit('won');
-        io.to(chor.socketId).emit('lost');
-      } 
+      console.log('CORRECTLY GUESSED');
+      io.to(badshah.socketId).emit('won');
+      io.to(wazir.socketId).emit('won');
+      io.to(sipahi.socketId).emit('won');
+      io.to(chor.socketId).emit('lost');
+    } 
     else {
-        console.log('WRONGLY GUESSED');
-        io.to(badshah.socketId).emit('lost');
-        io.to(wazir.socketId).emit('lost');
-        io.to(sipahi.socketId).emit('lost');
-        io.to(chor.socketId).emit('won');
-      }
+      console.log('WRONGLY GUESSED');
+      io.to(badshah.socketId).emit('lost');
+      io.to(wazir.socketId).emit('lost');
+      io.to(sipahi.socketId).emit('lost');
+      io.to(chor.socketId).emit('won');
+    }
 
     delete gamesRecord[gameId];
     waitingId = null;
