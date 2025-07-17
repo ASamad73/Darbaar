@@ -239,12 +239,15 @@ io.on("connection", (socket) => {
   });
   
   socket.on('vote', (user, voted) => {
-    if (!gamesRecord[waitingId] || !gamesRecord[waitingId].players) {
+    const gameId = findPlayerGame(socket.id);
+    const game = gamesRecord[gameId];
+
+    if (!game || !game.players) {
       console.warn('Vote received but no active game or players.');
       return;
     }
 
-    gamesRecord[waitingId].players.forEach(player => {
+    game.players.forEach(player => {
       if (player.username === user) {
         console.log('username', user);
         console.log('voted for', voted);
@@ -358,17 +361,25 @@ io.on("connection", (socket) => {
     console.log(`Game ${gameId} ended and cleaned up.`);
   });
 
-  socket.on('message', (msg_info)=>{
-    console.log('message being sent is: ', msg_info);
-    const badshah=gamesRecord[waitingId].players.find(p => p.role === 'Badshah');
-    const wazir=gamesRecord[waitingId].players.find(p => p.role === 'Wazir');
-    const sipahi=gamesRecord[waitingId].players.find(p => p.role === 'Sipahi');
-    const chor=gamesRecord[waitingId].players.find(p => p.role === 'Chor');
+  socket.on('message', (msg_info) => {
+    const gameId = findPlayerGame(socket.id);
+    const game = gamesRecord[gameId];
 
-    io.to(wazir.socketId).emit('msg_info', msg_info);
-    io.to(sipahi.socketId).emit('msg_info', msg_info);
-    io.to(chor.socketId).emit('msg_info', msg_info);
-    io.to(badshah.socketId).emit('msg_info', msg_info);    
+    if (!game || !game.players) {
+      console.warn('Message received but no active game or players.');
+      return;
+    }
+
+    const badshah = game.players.find(p => p.role === 'Badshah');
+    const wazir = game.players.find(p => p.role === 'Wazir');
+    const sipahi = game.players.find(p => p.role === 'Sipahi');
+    const chor = game.players.find(p => p.role === 'Chor');
+
+    [badshah, wazir, sipahi, chor].forEach(player => {
+      if (player) {
+        io.to(player.socketId).emit('msg_info', msg_info);
+      }
+    });
   });
 
   socket.on('disconnect', () => {
