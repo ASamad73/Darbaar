@@ -33,13 +33,10 @@ router.post('/user', async (req, res) => {
 router.post('/user/update-profile', async (req, res) => {
     try {
         const { username, check_username, password } = req.body;
-        // const user = await User.findById(req.user.userId);
         const users=await User.find();
         
         for (let u of users){
             if(u.username===check_username){
-                // console.log('username found', u.username)
-                // user=u;
                 if (!u) {
                     return res.status(404).json({ message: 'User not found' });
                 }
