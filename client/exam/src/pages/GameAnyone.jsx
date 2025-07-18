@@ -85,7 +85,7 @@ export default function GameAnyone() {
         })
         
         socket.on('end', (records)=>{
-            console.log('end received by:', gameRoleRef.current); // now logs correct role
+            console.log('end received by:', gameRoleRef.current); 
             setRoleRecords(records);
             if (gameRoleRef.current === 'Chor') {
                 setResult('You Won');

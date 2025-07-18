@@ -68,7 +68,6 @@ export default function Friends() {
 
     const addFriend = async () => {
         try {
-            // Get current user
             const meRes = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
                 method: 'GET',
                 credentials: 'include',
