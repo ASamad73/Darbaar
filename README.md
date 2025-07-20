@@ -15,7 +15,6 @@ Play with anyone or invite friends for a private match. </p>
 <p>The login page serves as the secure gateway for users to access the Darbaar platform. Players enter their registered username and password to authenticate themselves. 
 The system ensures that only verified users can proceed, maintaining game integrity and personalized access. Once logged in, users can choose between different gameplay options 
 — joining random matches or playing with friends — while retaining their unique identity across game sessions.</p>
-<br/>
 
 <div>
   <h3>Dashboard</h3>
@@ -26,7 +25,6 @@ The system ensures that only verified users can proceed, maintaining game integr
   <li>A heading at top of the buttons displaying the total number of games the user has played</li>
 </ul>
 <p>The Dashboard simplifies navigation within the app and ensures users have a seamless starting point for their gaming experience.</p>
-<br/>
 
 <div>
   <h3>Play Anyone</h3>
@@ -40,7 +38,6 @@ The system ensures that only verified users can proceed, maintaining game integr
   <li><b>Guessing Phase:</b> Once voting concludes, the Badshah can click the "Guess" button to view the votes and make an informed guess on who the Wazir is.</li>
   <li><b>End Game Option:</b>Badshah has the option to end the game, which lets the Chor Win and every other player lose</li>
 </ul>
-<br/>
 
 <div>
   <h3>Play Friends</h3>
@@ -52,7 +49,6 @@ The system ensures that only verified users can proceed, maintaining game integr
   <h3>Add Friends</h3>  
 </div>
   <p>The Add Friends functionality lets players build their in-game social network. Through this feature, players can add a user to their friends list through their unique username view their game activity, i.e., number of games played</p>
-<br/>
 
 <div>
   <h3>Update Profile</h3>
