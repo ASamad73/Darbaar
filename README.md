@@ -80,4 +80,8 @@ The system ensures that only verified users can proceed, maintaining game integr
   <img src="https://skillicons.dev/icons?i=netlify" height="50" style="margin:10px;" />&nbsp;
   <img src="https://skillicons.dev/icons?i=vscode" height="50" style="margin:10px;" />&nbsp;
 </p>
+<hr/>
+<h2>🙌  Contributions</h2>
+<h3>Feel free to fork this repo and contribute. Raise an issue or PR — contributions are welcome!</h3>
+
 
