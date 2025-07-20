@@ -58,3 +58,26 @@ The system ensures that only verified users can proceed, maintaining game integr
   <h3>Update Profile</h3>
 </div>
 <p>This feature allows users to manage and edit their profile details - username and password - seamlessly</p>
+<br/>
+
+<h2>💼 Tech Stack</h2>
+<h3>Core Technologies</h3>
+<p align="center">  
+  <img src="https://skillicons.dev/icons?i=html" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=css" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=js" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=react" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=nodejs" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=express" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=mongodb" height="50" style="margin:10px;" />&nbsp;
+</p>
+
+<h3>Tools & Libraries</h3>
+<p align="center">  
+  <img src="https://skillicons.dev/icons?i=git" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=github" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=vercel" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=netlify" height="50" style="margin:10px;" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=vscode" height="50" style="margin:10px;" />&nbsp;
+</p>
+
