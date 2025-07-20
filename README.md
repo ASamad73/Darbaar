@@ -58,7 +58,7 @@ The system ensures that only verified users can proceed, maintaining game integr
   <h3>Update Profile</h3>
 </div>
 <p>This feature allows users to manage and edit their profile details - username and password - seamlessly</p>
-<br/>
+<hr/>
 
 <h2>💼 Tech Stack</h2>
 <h3>Core Technologies</h3>
