@@ -5,9 +5,9 @@ Play with anyone or invite friends for a private match. </p>
 <hr/>
 
 <div align="center">
-  <img src="https://github.com/ASamad73/Darbaar/blob/master/darbaar1.jpg" alt="game1" width="400px">
+  <img src="https://github.com/ASamad73/Darbaar/blob/master/darbaar1.jpg" alt="game1" width="450px" height="350px">
   &nbsp;&nbsp;&nbsp; 
-  <img src="https://github.com/ASamad73/Darbaar/blob/master/barbaar2.jpg" alt="game2" width="400px">
+  <img src="https://github.com/ASamad73/Darbaar/blob/master/barbaar2.jpg" alt="game2" width="450px" height="350px">
 </div>
 
 
