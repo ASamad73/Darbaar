@@ -4,14 +4,12 @@ Players join rooms, get assigned secret roles, and use voting and deduction to f
 Play with anyone or invite friends for a private match. </p>
 <hr/>
 
-<div style="text-align: center;">
-  <span style="display: inline-block;">
-    <img src="https://github.com/ASamad73/Darbaar/blob/master/darbaar1.jpg" alt="game1" width="450px">
-  </span>
-  <span style="display: inline-block; margin-left: 10px;">
-    <img src="https://github.com/ASamad73/Darbaar/blob/master/barbaar2.jpg" alt="game2" width="450px">
-  </span>
-</div>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ASamad73/Darbaar/master/darbaar1.jpg" width="450px">
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/ASamad73/Darbaar/master/barbaar2.jpg" width="450px">
+</p>
+
 
 <h2>🌐 Live Demo</h2>
 <p>🔗<a href="https://darbaar.netlify.app/">https://darbaar.netlify.app/</a></p>
